@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import functionality.Main;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class LoginListener implements Listener {
 
@@ -23,13 +24,17 @@ public class LoginListener implements Listener {
     @EventHandler
     public void userJoined(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        registerInventory(player, plugin);
 
-
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                registerInventory(player);
+            }
+        }.runTaskLater(plugin, 1L);
     }
 
-    public static void registerInventory(Player player, Main plugin) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Registro"));
+    public static void registerInventory(Player player) {
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Register"));
         LoginInventory.fillInventory(inv);
         player.openInventory(inv);
     }

@@ -1,6 +1,7 @@
 package functionality;
 
 import listener.LoginListener;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,15 +12,18 @@ public class Main extends JavaPlugin {
     protected String version;
 
     public void onEnable() {
+        getLogger().info("onEnable is being called!");
+
         configReader = getDescription();
         version = configReader.getVersion();
 
-        registerCommands();
         registerEvents();
+        registerCommands();
+
     }
 
     public void onDisable() {
-
+        HandlerList.unregisterAll(this);
     }
 
     public void registerCommands() {
@@ -27,6 +31,8 @@ public class Main extends JavaPlugin {
     }
 
     public void registerEvents() {
+        getLogger().info("registerEvents is being called!");
+
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new LoginListener(this), this);
     }
