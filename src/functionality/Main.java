@@ -71,14 +71,13 @@ public class Main extends JavaPlugin {
         }
     }
 
-    public void registerPlayers() {
+    public void registerPlayers(){
         playersFile = new File(this.getDataFolder(), "players.yml");
-        if (!playersFile.exists()) {
+        if(!playersFile.exists()){
             this.getPlayers().options().copyDefaults(true);
             savePlayers();
         }
     }
-
     public void savePlayers() {
         try {
             players.save(playersFile);
@@ -105,11 +104,11 @@ public class Main extends JavaPlugin {
             defConfigStream = new InputStreamReader(this.getResource("players.yml"), "UTF8");
             if (defConfigStream != null) {
                 YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+                players.setDefaults(defConfig);
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
     }
 
 }

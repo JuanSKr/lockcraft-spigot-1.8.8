@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import functionality.Main;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import utilities.GetNum;
@@ -32,24 +33,23 @@ public class LoginListener implements Listener {
         Player player = event.getPlayer();
         FileConfiguration players = plugin.getPlayers();
         if (players.contains("Players." + player.getUniqueId() + ".pass")) {
-            loginInventory(player);
+            loginInventoryDelay(player);
         } else {
-            inventoryDelay(player);
+            registerInventoryDelay(player);
         }
-
 
     }
 
 
     public static void registerInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login"));
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register"));
         LoginInventory.fillInventory(inv);
         plugin.addRegisterPass(player, 3);
         player.openInventory(inv);
     }
 
     public static void loginInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Register"));
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login"));
         LoginInventory.fillInventory(inv);
         plugin.addRegisterPass(player, 3);
         player.openInventory(inv);
@@ -166,13 +166,29 @@ public class LoginListener implements Listener {
 
     }
 
-    public void inventoryDelay(Player player) {
+    public void registerInventoryDelay(Player player) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 registerInventory(player);
             }
         }.runTaskLater(plugin, 1L);
+    }
+
+    public void loginInventoryDelay(Player player) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                loginInventory(player);
+            }
+        }.runTaskLater(plugin, 1L);
+    }
+
+
+    @EventHandler
+    public void thenLeave(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        plugin.deleteRegisterPass(player.getName());
     }
 
 
