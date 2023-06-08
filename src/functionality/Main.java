@@ -1,6 +1,5 @@
 package functionality;
 
-
 import listener.LoginListener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -8,10 +7,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
-    PluginDescriptionFile configReader = getDescription();
-    protected String version = configReader.getVersion();
+    protected PluginDescriptionFile configReader;
+    protected String version;
 
     public void onEnable() {
+        configReader = getDescription();
+        version = configReader.getVersion();
+
         registerCommands();
         registerEvents();
     }
