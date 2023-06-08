@@ -16,10 +16,10 @@ public class LoginInventory {
         meta.setDisplayName(" ");
         item.setItemMeta(meta);
 
-        for(int i = 0; i < 8; i++) {
+        for(int i = 0; i < 9; i++) {
             inv.setItem(i, item);
         }
-        for(int i = 45; i < 53; i++) {
+        for(int i = 45; i < 54; i++) {
             inv.setItem(i, item);
         }
         inv.setItem(9, item);
@@ -34,7 +34,7 @@ public class LoginInventory {
         meta = item.getItemMeta();
         meta.setDisplayName(" ");
         item.setItemMeta(meta);
-        for(int i = 38; i < 42; i++) {
+        for(int i = 38; i < 43; i++) {
             inv.setItem(i, item);
         }
         item = new ItemStack(397,1,(short)3);
