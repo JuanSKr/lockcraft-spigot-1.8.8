@@ -16,10 +16,10 @@ public class LoginInventory {
         meta.setDisplayName(" ");
         item.setItemMeta(meta);
 
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i <= 8; i++) {
             inv.setItem(i, item);
         }
-        for(int i = 45; i < 54; i++) {
+        for(int i = 45; i <= 53; i++) {
             inv.setItem(i, item);
         }
         inv.setItem(9, item);
@@ -106,6 +106,25 @@ public class LoginInventory {
         item.setItemMeta(meta);
         inv.setItem(49, item);
 
+    }
+
+    public static void setDecorationPass(Inventory inv, int actuallyNum) {
+        int pos = 37 + actuallyNum;
+        ItemStack item = new ItemStack(159,1, (short) 5);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(" ");
+        item.setItemMeta(meta);
+        inv.setItem(pos, item);
+    }
+
+    public static void resetDecorationPass(Inventory inv) {
+        ItemStack item = new ItemStack(159,1, (short) 9);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(" ");
+        item.setItemMeta(meta);
+        for(int i = 38; i < 43; i++) {
+            inv.setItem(i, item);
+        }
     }
 
 
