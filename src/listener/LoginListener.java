@@ -22,6 +22,9 @@ import utilities.GetNum;
 public class LoginListener implements Listener {
 
     public static Main plugin;
+    boolean isRegister = false;
+    boolean isLogged = false;
+    boolean isModify = false;
 
     // All-args constructor
 
@@ -32,8 +35,6 @@ public class LoginListener implements Listener {
     @EventHandler
     public void userJoined(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        RegisterPassword test = new RegisterPassword(event.getPlayer(), 3);
-        player.sendMessage("Asd: "+ test.getAttempts());
         FileConfiguration players = plugin.getPlayers();
         if (players.contains("Players." + player.getUniqueId() + ".pass")) {
             loginInventoryDelay(player);
@@ -57,20 +58,7 @@ public class LoginListener implements Listener {
         player.openInventory(inv);
     }
 
-    @EventHandler
-    public void clickInventory(InventoryClickEvent event) {
-
-        String pathInventory1 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register");
-        String pathInventory2 = ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login");
-        String pathInventory3 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Modify");
-        String pathinventory1M = ChatColor.stripColor(pathInventory1);
-        String pathinventory2M = ChatColor.stripColor(pathInventory2);
-        String pathinventory3M = ChatColor.stripColor(pathInventory3);
-
-        boolean isRegister = false;
-        boolean isLogged = false;
-        boolean isModify = false;
-
+    public void setPathInventory(String pathinventory1M, String pathinventory2M, String pathinventory3M, InventoryClickEvent event) {
         if (ChatColor.stripColor(event.getInventory().getName()).equals(pathinventory1M)) {
             isRegister = true;
         } else if (ChatColor.stripColor(event.getInventory().getName()).equals(pathinventory2M)) {
@@ -80,6 +68,20 @@ public class LoginListener implements Listener {
         } else {
             return;
         }
+    }
+
+    @EventHandler
+    public void clickInventory(InventoryClickEvent event) {
+
+        String pathInventory1 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register");
+        String pathInventory2 = ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login");
+        String pathInventory3 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Modify");
+        String pathinventory1M = ChatColor.stripColor(pathInventory1);
+        String pathinventory2M = ChatColor.stripColor(pathInventory2);
+        String pathinventory3M = ChatColor.stripColor(pathInventory3);
+        
+        setPathInventory(pathinventory1M, pathinventory2M, pathinventory3M, event);
+
         event.setCancelled(true);
         if (event.getCurrentItem() == null) {
             return;
