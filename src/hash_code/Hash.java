@@ -6,6 +6,16 @@ import java.security.NoSuchAlgorithmException;
 
 public class Hash {
 
+    /**
+     * This method generates a SHA-256 hash for a given string.
+     * The hash is a 64-character long hexadecimal string.
+     *
+     * @param input the original string to be hashed
+     * @return the SHA-256 hash as a string, or null if the hashing fails due to a NoSuchAlgorithmException
+     *
+     * @throws NullPointerException if the input string is null
+     */
+
     public static String getSHA256Hash(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
