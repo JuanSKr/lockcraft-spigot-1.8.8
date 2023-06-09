@@ -31,6 +31,8 @@ public class LoginListener implements Listener {
     @EventHandler
     public void userJoined(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        RegisterPassword test = new RegisterPassword(event.getPlayer(), 3);
+        player.sendMessage("Asd: "+ test.getAttempts());
         FileConfiguration players = plugin.getPlayers();
         if (players.contains("Players." + player.getUniqueId() + ".pass")) {
             loginInventoryDelay(player);

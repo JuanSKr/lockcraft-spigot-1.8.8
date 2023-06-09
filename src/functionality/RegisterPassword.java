@@ -9,12 +9,13 @@ public class RegisterPassword {
     private int attempts;
     private int maxAttempts;
 
-   public RegisterPassword(Player player, int maxAttempts) {
-       this.player = player;
-       this.pass = "";
-       this.attempts = this.maxAttempts;
-       this.maxAttempts = maxAttempts;
-   }
+    public RegisterPassword(Player player, int maxAttempts) {
+        this.player = player;
+        this.pass = "";
+        this.maxAttempts = maxAttempts;
+        this.attempts = this.maxAttempts;
+    }
+
 
     public Player getPlayer() {
         return this.player;
