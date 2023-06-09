@@ -8,7 +8,6 @@ public class RegisterPassword {
     private String pass;
     private int attempts;
     private int maxAttempts;
-    private int modifyStage;
 
     /**
      * Constructs a new RegisterPassword instance for a player.
@@ -18,14 +17,11 @@ public class RegisterPassword {
      * @param maxAttempts The maximum number of attempts allowed for password registration.
      */
 
-    public RegisterPassword(Player player, int maxAttempts, boolean modifiying) {
+    public RegisterPassword(Player player, int maxAttempts) {
         this.player = player;
         this.pass = "";
         this.maxAttempts = maxAttempts;
         this.attempts = this.maxAttempts;
-        if(modifiying) {
-            this.modifyStage = 1;
-        }
     }
 
 
@@ -93,14 +89,6 @@ public class RegisterPassword {
 
     public void reduceAttempts() {
         this.attempts--;
-    }
-
-    public void increaseStage() {
-        this.modifyStage++;
-    }
-
-    public int getStage() {
-        return this.modifyStage;
     }
 
 }

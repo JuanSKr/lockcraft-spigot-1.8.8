@@ -1,7 +1,3 @@
 main: functionality.Main
 version: 0.0.1
 name: LockCraft
-
-commands:
-  modifypin:
-    description: Command to modify your PIN.
