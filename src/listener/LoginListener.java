@@ -1,6 +1,7 @@
 package listener;
 
 import functionality.RegisterPassword;
+import hash_code.Hash;
 import inv.modifier.LoginInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -99,7 +100,8 @@ public class LoginListener implements Listener {
                             FileConfiguration players = plugin.getPlayers();
                             String passString = pass.getPass();
                             if(isRegister) {
-                                players.set("Players." + player.getUniqueId() + ".pass", passString);
+                                String hashedPass = Hash.getSHA256Hash(passString);
+                                players.set("Players." + player.getUniqueId() + ".pass", hashedPass);
                                 plugin.savePlayers();
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                         "&6&lPin registered! &7Your pass is &a&l" + passString));
@@ -107,8 +109,10 @@ public class LoginListener implements Listener {
                                 player.closeInventory();
                                 return;
                             } else if(isLogged) {
-                                String userPass = players.getString("Players." + player.getUniqueId() + ".pass");
-                                if(passString.equals(userPass)) {
+                                String inputPassHash = Hash.getSHA256Hash(passString);
+                                String storedPassHash = players.getString("Players." + player.getUniqueId() + ".pass");
+
+                                if(inputPassHash.equals(storedPassHash)) {
                                     player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                             "&a&lYou're logged in!"));
