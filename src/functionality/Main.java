@@ -1,5 +1,6 @@
 package functionality;
 
+import commands.ModifyCommand;
 import listener.LoginListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -55,7 +56,7 @@ public class Main extends JavaPlugin {
     }
 
     public void registerCommands() {
-
+        this.getCommand("modifypin").setExecutor(new ModifyCommand());
     }
 
     /**
@@ -95,8 +96,8 @@ public class Main extends JavaPlugin {
      * @param maxAttempts  The maximum number of login attempts the player should have.
      */
 
-    public void addRegisterPass(Player player, int maxAttempts) {
-        passwords.add(new RegisterPassword(player, maxAttempts));
+    public void addRegisterPass(Player player, int maxAttempts, boolean modifiying) {
+        passwords.add(new RegisterPassword(player, maxAttempts, modifiying));
     }
 
     /**

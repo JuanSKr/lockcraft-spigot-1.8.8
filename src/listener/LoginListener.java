@@ -5,6 +5,7 @@ import hash_code.Hash;
 import inv.modifier.LoginInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -16,6 +17,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import functionality.Main;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import utilities.GetNum;
 
@@ -47,14 +50,26 @@ public class LoginListener implements Listener {
     public static void registerInventory(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register"));
         LoginInventory.fillInventory(inv);
-        plugin.addRegisterPass(player, 3);
+        plugin.addRegisterPass(player, 3, false);
         player.openInventory(inv);
     }
 
     public static void loginInventory(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login"));
         LoginInventory.fillInventory(inv);
-        plugin.addRegisterPass(player, 3);
+        plugin.addRegisterPass(player, 3, false);
+        player.openInventory(inv);
+    }
+
+    public static void modifyInventory(Player player) {
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Modify"));
+        LoginInventory.fillInventory(inv);
+        plugin.addRegisterPass(player, 1, true);
+        ItemStack item = new ItemStack(Material.BOOK);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aText your actually pin."));
+        item.setItemMeta(meta);
+        inv.setItem(4, item);
         player.openInventory(inv);
     }
 
@@ -73,13 +88,16 @@ public class LoginListener implements Listener {
     @EventHandler
     public void clickInventory(InventoryClickEvent event) {
 
+        Player player = (Player) event.getWhoClicked();
+        RegisterPassword pass = plugin.getRegisterPassword(player.getName());
+
         String pathInventory1 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register");
         String pathInventory2 = ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login");
         String pathInventory3 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Modify");
         String pathinventory1M = ChatColor.stripColor(pathInventory1);
         String pathinventory2M = ChatColor.stripColor(pathInventory2);
         String pathinventory3M = ChatColor.stripColor(pathInventory3);
-        
+
         setPathInventory(pathinventory1M, pathinventory2M, pathinventory3M, event);
 
         event.setCancelled(true);
@@ -89,10 +107,10 @@ public class LoginListener implements Listener {
         if (event.getSlotType() == null) {
             return;
         } else {
-            Player player = (Player) event.getWhoClicked();
+
             if (event.getClickedInventory().equals(player.getOpenInventory().getTopInventory())) {
                 int slot = event.getSlot();
-                RegisterPassword pass = plugin.getRegisterPassword(player.getName());
+
                 if ((slot >= 12 && slot <= 14) || (slot >= 21 && slot <= 23) || (slot >= 30 && slot <= 32)) {
                     int num = GetNum.getNumberSlot(slot);
                     if (pass != null) {
@@ -102,6 +120,7 @@ public class LoginListener implements Listener {
                             FileConfiguration players = plugin.getPlayers();
                             String passString = pass.getPass();
                             if(isRegister) {
+                                player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
                                 String hashedPass = Hash.getSHA256Hash(passString);
                                 players.set("Players." + player.getUniqueId() + ".pass", hashedPass);
                                 plugin.savePlayers();
@@ -127,7 +146,6 @@ public class LoginListener implements Listener {
                                         plugin.deleteRegisterPass(player.getName());
                                         player.kickPlayer(ChatColor.translateAlternateColorCodes('&',
                                                 "&cYou have exceeded the attempt limit!"));
-                                        System.out.println("Attempts: "+attemps);
                                         return;
                                     } else {
                                         player.playSound(player.getLocation(), Sound.FIZZ, 10, 1);
@@ -142,7 +160,39 @@ public class LoginListener implements Listener {
                                 }
 
                             } else if (isModify) {
+                                int stage = pass.getStage();
+                                if(stage == 1) {
+                                    String inputPassHash = Hash.getSHA256Hash(passString);
+                                    String storedPassHash = players.getString("Players." + player.getUniqueId() + ".pass");
 
+                                    if(inputPassHash.equals(storedPassHash)) {
+                                        player.playSound(player.getLocation(), Sound.DOOR_OPEN, 10, 2);
+                                        pass.increaseStage();
+                                        LoginInventory.resetDecorationPass(event.getClickedInventory());
+                                        pass.resetPass();
+                                        ItemStack item = new ItemStack(Material.BOOK);
+                                        ItemMeta meta = item.getItemMeta();
+                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aText your new pin."));
+                                        item.setItemMeta(meta);
+                                        event.getClickedInventory().setItem(4, item);
+
+                                    } else {
+                                        plugin.deleteRegisterPass(player.getName());
+                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&',
+                                                "&cYou have exceeded the attempt limit!"));
+                                    }
+
+                                } else {
+                                    player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
+                                    String hashedPass = Hash.getSHA256Hash(passString);
+                                    players.set("Players." + player.getUniqueId() + ".pass", hashedPass);
+                                    plugin.savePlayers();
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                            "&6&lYour PIN has been successfully modified! &7Your new PIN is &a&l" + passString));
+                                    plugin.deleteRegisterPass(player.getName());
+                                    player.closeInventory();
+                                    return;
+                                }
                             }
                         }
 
