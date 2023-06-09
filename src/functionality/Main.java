@@ -71,13 +71,14 @@ public class Main extends JavaPlugin {
         }
     }
 
-    public void registerPlayers(){
+    public void registerPlayers() {
         playersFile = new File(this.getDataFolder(), "players.yml");
-        if(!playersFile.exists()){
+        if (!playersFile.exists()) {
             this.getPlayers().options().copyDefaults(true);
             savePlayers();
         }
     }
+
     public void savePlayers() {
         try {
             players.save(playersFile);

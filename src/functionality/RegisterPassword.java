@@ -43,4 +43,5 @@ public class RegisterPassword {
     public void reduceAttempts() {
        this.attempts--;
     }
+
 }

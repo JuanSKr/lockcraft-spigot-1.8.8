@@ -40,7 +40,6 @@ public class LoginListener implements Listener {
 
     }
 
-
     public static void registerInventory(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register"));
         LoginInventory.fillInventory(inv);
@@ -99,6 +98,7 @@ public class LoginListener implements Listener {
                             String passString = pass.getPass();
                             if(isRegister) {
                                 players.set("Players." + player.getUniqueId() + ".pass", passString);
+                                plugin.savePlayers();
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                         "&6&lPin registered! &7Your pass is &a&l" + passString));
                                 plugin.deleteRegisterPass(player.getName());
@@ -119,6 +119,7 @@ public class LoginListener implements Listener {
                                         plugin.deleteRegisterPass(player.getName());
                                         player.kickPlayer(ChatColor.translateAlternateColorCodes('&',
                                                 "&cYou have exceeded the attempt limit!"));
+                                        System.out.println("Attempts: "+attemps);
                                         return;
                                     } else {
                                         player.playSound(player.getLocation(), Sound.FIZZ, 10, 1);
@@ -126,7 +127,7 @@ public class LoginListener implements Listener {
                                         pass.reduceAttempts();
                                         LoginInventory.resetDecorationPass(event.getClickedInventory());
                                         pass.resetPass();
-                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&',
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                                 "&c&lWrong pin! &8(&6"+(maxAttempts - attemps+1)+"&7/&6"+maxAttempts+"&8)"));
                                         return;
                                     }
