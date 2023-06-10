@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,7 +36,7 @@ public class LoginListener implements Listener {
     public void userJoined(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         FileConfiguration players = plugin.getPlayers();
-        if (players.contains("Players." + player.getUniqueId() + ".pass")) {
+        if (players.contains(playerPath(player))) {
             loginInventoryDelay(player);
         } else {
             registerInventoryDelay(player);
@@ -117,7 +116,7 @@ public class LoginListener implements Listener {
                             String passString = pass.getPass();
                             if (isRegister) {
                                 String hashedPass = Hash.getSHA256Hash(passString);
-                                players.set("Players." + player.getUniqueId() + ".pass", hashedPass);
+                                players.set(playerPath(player), hashedPass);
                                 plugin.savePlayers();
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
                                         "&6&lPin registered! &7Your pass is &a&l" + passString));
@@ -126,7 +125,7 @@ public class LoginListener implements Listener {
                                 return;
                             } else if (isLogged) {
                                 String inputPassHash = Hash.getSHA256Hash(passString);
-                                String storedPassHash = players.getString("Players." + player.getUniqueId() + ".pass");
+                                String storedPassHash = players.getString(playerPath(player));
 
                                 if (inputPassHash.equals(storedPassHash)) {
                                     player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
@@ -159,7 +158,7 @@ public class LoginListener implements Listener {
                                 int stage = pass.getStage();
                                 if (stage == 1) {
                                     String inputPassHash = Hash.getSHA256Hash(passString);
-                                    String storedPassHash = players.getString("Players." + player.getUniqueId() + ".pass");
+                                    String storedPassHash = players.getString(playerPath(player));
 
                                     if (inputPassHash.equals(storedPassHash)) {
                                         player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
@@ -180,10 +179,10 @@ public class LoginListener implements Listener {
                                 } else {
                                     player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 1);
                                     String hashedPass = Hash.getSHA256Hash(passString);
-                                    players.set("Players." + player.getUniqueId() + ".pass", hashedPass);
+                                    players.set(playerPath(player), hashedPass);
                                     plugin.savePlayers();
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                            "&a&lPIN SUCCESSFULY CHANGED &7Your new PIN is: &f" + passString));
+                                            "&a&lPIN SUCCESSFULY CHANGED &7Your new PIN is: &f" + passString + "."));
                                     plugin.deleteRegisterPass(player.getName());
                                     player.closeInventory();
                                     return;
@@ -242,6 +241,10 @@ public class LoginListener implements Listener {
     public void thenLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         plugin.deleteRegisterPass(player.getName());
+    }
+
+    public String playerPath(Player player) {
+        return "Players." + player.getUniqueId() + ".pass";
     }
 
 

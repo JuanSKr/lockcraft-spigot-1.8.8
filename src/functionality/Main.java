@@ -1,6 +1,7 @@
 package functionality;
 
 import commands.ModifyPin;
+import commands.Reload;
 import listener.LoginListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -58,6 +59,7 @@ public class Main extends JavaPlugin {
     public void registerCommands() {
 
         this.getCommand("modifypin").setExecutor(new ModifyPin());
+        this.getCommand("lc-reload").setExecutor(new Reload(this));
 
     }
 

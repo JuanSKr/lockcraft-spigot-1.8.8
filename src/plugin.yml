@@ -4,4 +4,6 @@ name: LockCraft
 
 commands:
   modifypin:
-    description: Test
+    description: Modify your pin.
+  lc-reload:
+    description: Reload the plugin.
