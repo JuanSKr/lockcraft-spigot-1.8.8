@@ -3,6 +3,7 @@ package functionality;
 import commands.ModifyPin;
 import commands.Reload;
 import listener.LoginListener;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -16,8 +17,9 @@ import java.util.ArrayList;
 
 public class Main extends JavaPlugin {
 
-    protected PluginDescriptionFile configReader;
-    protected String version;
+    protected PluginDescriptionFile pluginReader = getDescription();
+    public final String NAME = ChatColor.translateAlternateColorCodes('&', "&8[&f&lLock&6&lCraft&8] ");
+    public final String VERSION = ChatColor.translateAlternateColorCodes('&', "&a(&e"+pluginReader.getVersion()+"a&e)");
     private ArrayList<RegisterPassword> passwords = new ArrayList<RegisterPassword>();
     private FileConfiguration players = null;
     private File playersFile = null;
@@ -32,9 +34,6 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
         getLogger().info("onEnable is being called!");
-
-        configReader = getDescription();
-        version = configReader.getVersion();
 
         registerEvents();
         registerCommands();

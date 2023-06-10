@@ -1,7 +1,9 @@
 package commands;
 
 import functionality.Main;
+import messages.CommandMessages;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,10 +28,11 @@ public class Reload implements CommandExecutor {
             if(command.getName().equalsIgnoreCase("lc-reload")) {
                 plugin.reloadConfig();
                 plugin.reloadPlayers();
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6&lPlugin has been successfully reloaded."));
+                player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', CommandMessages.reloadMessage(plugin)));
                 return true;
             } else {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&c&lERROR!"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('8', CommandMessages.commandNotExitsMessage(plugin)));
                 return false;
             }
         }

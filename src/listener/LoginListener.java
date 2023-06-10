@@ -3,6 +3,8 @@ package listener;
 import functionality.RegisterPassword;
 import hash_code.Hash;
 import inv.modifier.LoginInventory;
+import messages.CommandMessages;
+import messages.PinMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -115,11 +117,12 @@ public class LoginListener implements Listener {
                             FileConfiguration players = plugin.getPlayers();
                             String passString = pass.getPass();
                             if (isRegister) {
+                                player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
                                 String hashedPass = Hash.getSHA256Hash(passString);
                                 players.set(playerPath(player), hashedPass);
                                 plugin.savePlayers();
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                        "&6&lPin registered! &7Your pass is &a&l" + passString));
+                                        PinMessages.pinRegistered(plugin) + passString));
                                 plugin.deleteRegisterPass(player.getName());
                                 player.closeInventory();
                                 return;
@@ -129,8 +132,7 @@ public class LoginListener implements Listener {
 
                                 if (inputPassHash.equals(storedPassHash)) {
                                     player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                            "&a&lYou're logged in!"));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.userLogged(plugin)));
                                     plugin.deleteRegisterPass(player.getName());
                                     player.closeInventory();
                                     return;
@@ -138,9 +140,7 @@ public class LoginListener implements Listener {
                                     int attemps = pass.getAttempts();
                                     if (attemps <= 1) {
                                         plugin.deleteRegisterPass(player.getName());
-                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&',
-                                                "&cYou have exceeded the attempt limit!"));
-                                        System.out.println("Attempts: " + attemps);
+                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PinMessages.exceededLimit(plugin)));
                                         return;
                                     } else {
                                         player.playSound(player.getLocation(), Sound.FIZZ, 10, 1);
@@ -149,7 +149,7 @@ public class LoginListener implements Listener {
                                         LoginInventory.resetDecorationPass(event.getClickedInventory());
                                         pass.resetPass();
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                                "&c&lWrong pin! &8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
+                                                plugin.NAME + "&c&lWrong pin! &8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
                                         return;
                                     }
                                 }
@@ -167,13 +167,13 @@ public class LoginListener implements Listener {
                                         pass.resetPass();
                                         ItemStack item = new ItemStack(Material.BOOK);
                                         ItemMeta meta = item.getItemMeta();
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&a&lCORRECT PIN! &7Select your new PIN."));
-                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aSelect your new PIN."));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.modifyCorrectPin(plugin)));
+                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aChoose your new PIN."));
                                         item.setItemMeta(meta);
                                         event.getClickedInventory().setItem(4, item);
                                     } else {
                                         plugin.deleteRegisterPass(player.getName());
-                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', "&c&lYou have exceeded the attempt limit!"));
+                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PinMessages.exceededLimit(plugin)));
                                     }
 
                                 } else {
@@ -182,14 +182,13 @@ public class LoginListener implements Listener {
                                     players.set(playerPath(player), hashedPass);
                                     plugin.savePlayers();
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                            "&a&lPIN SUCCESSFULY CHANGED &7Your new PIN is: &f" + passString + "."));
+                                            PinMessages.pinChanged(plugin) + passString + "."));
                                     plugin.deleteRegisterPass(player.getName());
                                     player.closeInventory();
                                     return;
                                 }
                             }
                         }
-
 
                         player.playSound(player.getLocation(), Sound.NOTE_PLING, 10, 2);
                     }
@@ -211,6 +210,7 @@ public class LoginListener implements Listener {
             Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
                 @Override
                 public void run() {
+                    player.playSound(player.getLocation(), Sound.BLAZE_HIT, 10, 2);
                     player.openInventory(inv);
                 }
             }, 1L);
