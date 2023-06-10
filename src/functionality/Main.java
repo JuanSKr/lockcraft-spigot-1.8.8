@@ -1,5 +1,6 @@
 package functionality;
 
+import commands.ModifyPin;
 import listener.LoginListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -56,6 +57,8 @@ public class Main extends JavaPlugin {
 
     public void registerCommands() {
 
+        this.getCommand("modifypin").setExecutor(new ModifyPin());
+
     }
 
     /**
@@ -74,7 +77,7 @@ public class Main extends JavaPlugin {
     /**
      * This method retrieves the RegisterPassword object associated with the provided player.
      *
-     * @param player  The name of the player for which to retrieve the RegisterPassword object.
+     * @param player The name of the player for which to retrieve the RegisterPassword object.
      * @return The RegisterPassword object associated with the given player, or null if no such object exists.
      */
 
@@ -91,12 +94,12 @@ public class Main extends JavaPlugin {
      * This method adds a new RegisterPassword object to the passwords list for the provided player.
      * The RegisterPassword object is initialized with the given maximum number of attempts.
      *
-     * @param player       The player to add a RegisterPassword object for.
-     * @param maxAttempts  The maximum number of login attempts the player should have.
+     * @param player      The player to add a RegisterPassword object for.
+     * @param maxAttempts The maximum number of login attempts the player should have.
      */
 
-    public void addRegisterPass(Player player, int maxAttempts) {
-        passwords.add(new RegisterPassword(player, maxAttempts));
+    public void addRegisterPass(Player player, int maxAttempts, boolean modify) {
+        passwords.add(new RegisterPassword(player, maxAttempts, modify));
     }
 
     /**
@@ -104,7 +107,7 @@ public class Main extends JavaPlugin {
      * The method iterates through the passwords list and removes the RegisterPassword object
      * if its associated player matches the provided player name.
      *
-     * @param player  The name of the player for which to remove the RegisterPassword object.
+     * @param player The name of the player for which to remove the RegisterPassword object.
      */
 
     public void deleteRegisterPass(String player) {
