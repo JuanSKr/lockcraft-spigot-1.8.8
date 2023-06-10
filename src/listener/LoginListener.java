@@ -149,7 +149,7 @@ public class LoginListener implements Listener {
                                         LoginInventory.resetDecorationPass(event.getClickedInventory());
                                         pass.resetPass();
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                                plugin.NAME + "&c&lWrong pin! &8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
+                                                plugin.NAME + "&cWrong pin! &8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
                                         return;
                                     }
                                 }
@@ -173,7 +173,7 @@ public class LoginListener implements Listener {
                                         event.getClickedInventory().setItem(4, item);
                                     } else {
                                         plugin.deleteRegisterPass(player.getName());
-                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PinMessages.exceededLimit(plugin)));
+                                        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PinMessages.exceededLimitModify(plugin)));
                                     }
 
                                 } else {

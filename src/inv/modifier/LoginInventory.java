@@ -100,9 +100,9 @@ public class LoginInventory {
         item.setItemMeta(meta);
         inv.setItem(32, item);
 
-        item = new ItemStack(Material.REDSTONE_BLOCK);
+        item = new ItemStack(Material.ENDER_PEARL);
         meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cReset"));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&9Reset PIN"));
         item.setItemMeta(meta);
         inv.setItem(49, item);
 
@@ -112,7 +112,7 @@ public class LoginInventory {
         int pos = 37 + actuallyNum;
         ItemStack item = new ItemStack(159,1, (short) 5);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(" ");
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&2&k&lI"));
         item.setItemMeta(meta);
         inv.setItem(pos, item);
     }

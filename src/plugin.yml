@@ -1,5 +1,5 @@
 main: functionality.Main
-version: 0.0.1
+version: 0.0.8
 name: LockCraft
 
 commands:
@@ -7,3 +7,5 @@ commands:
     description: Modify your pin.
   lc-reload:
     description: Reload the plugin.
+  lc-help:
+    description: Command to see all the plugin information.

@@ -1,5 +1,6 @@
 package functionality;
 
+import commands.Help;
 import commands.ModifyPin;
 import commands.Reload;
 import listener.LoginListener;
@@ -59,6 +60,7 @@ public class Main extends JavaPlugin {
 
         this.getCommand("modifypin").setExecutor(new ModifyPin());
         this.getCommand("lc-reload").setExecutor(new Reload(this));
+        this.getCommand("lc-help").setExecutor(new Help(this));
 
     }
 

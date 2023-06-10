@@ -8,6 +8,10 @@ public class PinMessages {
         return plugin.NAME + "&eToo many attempts! &8(&c3&7/&c3&8)";
     }
 
+    public static String exceededLimitModify(Main plugin) {
+        return plugin.NAME + "&eToo many attempts! &8(&c1&7/&c1&8)";
+    }
+
     public static String userLogged(Main plugin) {
         return plugin.NAME + "&aYou're logged in!";
     }

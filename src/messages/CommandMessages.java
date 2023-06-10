@@ -21,5 +21,9 @@ public class CommandMessages {
         return plugin.NAME + "&aPlugin has been successfully reloaded.";
     }
 
+    public static String noPermissions(Main plugin) {
+        return plugin.NAME + "&cYou don't have permissions to use this command!";
+    }
+
 
 }
