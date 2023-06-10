@@ -25,5 +25,9 @@ public class CommandMessages {
         return plugin.NAME + "&cYou don't have permissions to use this command!";
     }
 
+    public static String showVersion(Main plugin) {
+        return plugin.NAME + plugin.VERSION;
+    }
+
 
 }

@@ -1,0 +1,15 @@
+
+u
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ì£î8¾ü¹—Š1
+i
+java:S1192‚"LDefine a constant instead of duplicating this literal "players.yml" 3 times.(ÕÎí%8¿ü¹—Š1
+Z
+java:S2589µ"7Remove this expression which always evaluates to "true"(¬ÔÌûüÿÿÿÿ8Øü¹—Š1
+k	java:S116"ORename this field "NAME" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûëØö8·Åõ—Š1
+n	java:S116"RRename this field "VERSION" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(±ğÆú8¼¦ô—Š1
+\
+java:S1161$":Add the "@Override" annotation above this method signature(âºˆ¾úÿÿÿÿ8İü¹—Š1
+V
+java:S11614":Add the "@Override" annotation above this method signature(â¶œ48Şü¹—Š1
+W
+java:S4719´"9Replace charset name argument with StandardCharsets.UTF_8(¤â¡8êü¹—Š1

@@ -27,6 +27,9 @@ import utilities.GetNum;
 public class LoginListener implements Listener {
 
     public static Main plugin;
+    private static final String registerTxt = "&c&lRegister: &8Choose your PIN!";
+    private static final String loginTxt = "&c&lLogin: &8Type your PIN!";
+    private static final String modifyTxt = "&c&lModify: &8Choose your new PIN!";
 
     // All-args constructor
 
@@ -47,14 +50,14 @@ public class LoginListener implements Listener {
     }
 
     public static void registerInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register"));
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', registerTxt));
         LoginInventory.fillInventory(inv);
         plugin.addRegisterPass(player, 3, false);
         player.openInventory(inv);
     }
 
     public static void loginInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login"));
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', loginTxt));
         LoginInventory.fillInventory(inv);
         plugin.addRegisterPass(player, 3, false);
         player.openInventory(inv);
@@ -62,7 +65,7 @@ public class LoginListener implements Listener {
 
     public static void modifyInventory(Player player) {
 
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Modify"));
+        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', modifyTxt));
         LoginInventory.fillInventory(inv);
         plugin.addRegisterPass(player, 1, true);
         ItemStack item = new ItemStack(Material.BOOK);
@@ -77,9 +80,9 @@ public class LoginListener implements Listener {
     @EventHandler
     public void clickInventory(InventoryClickEvent event) {
 
-        String pathInventory1 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Register");
-        String pathInventory2 = ChatColor.translateAlternateColorCodes('&', "&6PIN: &7Login");
-        String pathInventory3 = ChatColor.translateAlternateColorCodes('&', "&6&lPIN: &7Modify");
+        String pathInventory1 = ChatColor.translateAlternateColorCodes('&', registerTxt);
+        String pathInventory2 = ChatColor.translateAlternateColorCodes('&', loginTxt);
+        String pathInventory3 = ChatColor.translateAlternateColorCodes('&', modifyTxt);
         String pathinventory1M = ChatColor.stripColor(pathInventory1);
         String pathinventory2M = ChatColor.stripColor(pathInventory2);
         String pathinventory3M = ChatColor.stripColor(pathInventory3);

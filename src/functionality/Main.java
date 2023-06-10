@@ -3,6 +3,7 @@ package functionality;
 import commands.Help;
 import commands.ModifyPin;
 import commands.Reload;
+import commands.Version;
 import listener.LoginListener;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -20,7 +21,7 @@ public class Main extends JavaPlugin {
 
     protected PluginDescriptionFile pluginReader = getDescription();
     public final String NAME = ChatColor.translateAlternateColorCodes('&', "&8[&f&lLock&6&lCraft&8] ");
-    public final String VERSION = ChatColor.translateAlternateColorCodes('&', "&a(&e"+pluginReader.getVersion()+"a&e)");
+    public final String VERSION = ChatColor.translateAlternateColorCodes('&', "&8(&e"+pluginReader.getVersion()+"&8)");
     private ArrayList<RegisterPassword> passwords = new ArrayList<RegisterPassword>();
     private FileConfiguration players = null;
     private File playersFile = null;
@@ -61,6 +62,7 @@ public class Main extends JavaPlugin {
         this.getCommand("modifypin").setExecutor(new ModifyPin());
         this.getCommand("lc-reload").setExecutor(new Reload(this));
         this.getCommand("lc-help").setExecutor(new Help(this));
+        this.getCommand("lc-version").setExecutor(new Version(this));
 
     }
 

@@ -22,8 +22,9 @@ public class GetNum {
                 return 8;
             case 32:
                 return 9;
+            default:
+                return 0;
         }
-        return 0;
     }
 
 }

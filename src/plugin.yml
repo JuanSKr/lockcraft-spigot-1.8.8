@@ -1,11 +1,13 @@
 main: functionality.Main
-version: 0.0.8
+version: 0.1.0
 name: LockCraft
 
 commands:
   modifypin:
     description: Modify your pin.
   lc-reload:
-    description: Reload the plugin.
+    description: Reload the plugin (Only for OP users).
   lc-help:
     description: Command to see all the plugin information.
+  lc-version:
+    description: Show the plugin version.
