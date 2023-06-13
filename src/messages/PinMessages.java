@@ -1,8 +1,17 @@
 package messages;
 
 import functionality.Main;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class PinMessages {
+
+    public static Main plugin;
+
+    public PinMessages(Main plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * Returns a String message indicating that the maximum number of login attempts has been exceeded.
@@ -44,8 +53,8 @@ public class PinMessages {
      * @return a string representing the successful pin registration message
      */
 
-    public static String pinRegistered(Main plugin) {
-        return plugin.NAME + "&aYour pin has been successfully registered! &7Your pin is: &a";
+    public static String pinRegistered(Main plugin, String passString) {
+        return plugin.NAME + " " + playerPass(passString).toLegacyText();
     }
 
     /**
@@ -68,5 +77,15 @@ public class PinMessages {
 
     public static String pinChanged(Main plugin) {
         return plugin.NAME + "&aPIN successfully changed! &7Your new PIN is: &f";
+    }
+
+    public static TextComponent playerPass(String passString) {
+        TextComponent passwd = new TextComponent();
+
+        passwd.setText(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes(
+                '&', "&8[&f&lLock&6&lCraft&8] &ePIN successfully registered! &7Mouse over to view it."));
+        passwd.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(passString).
+                color(net.md_5.bungee.api.ChatColor.GREEN).create()));
+        return passwd;
     }
 }
