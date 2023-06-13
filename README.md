@@ -51,6 +51,9 @@ This project is [MIT](LICENSE) licensed.
 ## 📚  Libraries implemented in the development process: 
 - Spigot (spigot-1.8.8-R0.1-SNAPSHOT-latest)
 
+## 🚰 Spigot repository:
+https://www.spigotmc.org/resources/lockcraft.110439/
+
 <details>
   <summary>📸 Screenshots</summary>
   
