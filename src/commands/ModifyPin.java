@@ -1,7 +1,6 @@
 package commands;
 
-import listener.LoginListener;
-import org.bukkit.ChatColor;
+import listener.PluginListener;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +28,7 @@ public class ModifyPin implements CommandExecutor {
             return false;
         }
         Player player = (Player) commandSender;
-        LoginListener.modifyInventory(player);
+        PluginListener.modifyInventory(player);
         return true;
     }
 }

@@ -4,7 +4,8 @@ import commands.Help;
 import commands.ModifyPin;
 import commands.Reload;
 import commands.Version;
-import listener.LoginListener;
+import listener.PluginListener;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -36,8 +37,8 @@ public class Main extends JavaPlugin {
 
     public void onEnable() {
 
-        getLogger().info(ChatColor.translateAlternateColorCodes(
-                '&', NAME + " &aLockCraft " + VERSION + " &ahas been successfully started."));
+        Bukkit.getConsoleSender().sendMessage(NAME + ChatColor.GREEN + " LockCraft has been successfully started. " + VERSION);
+
 
         registerEvents();
         registerCommands();
@@ -76,7 +77,7 @@ public class Main extends JavaPlugin {
     public void registerEvents() {
 
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new LoginListener(this), this);
+        pm.registerEvents(new PluginListener(this), this);
     }
 
     /**

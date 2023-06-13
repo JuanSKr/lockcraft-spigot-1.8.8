@@ -23,30 +23,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import utilities.GetNum;
 
-public class LoginListener implements Listener {
+public class PluginListener implements Listener {
 
     public static Main plugin;
     private static final String registerTxt = "&c&lRegister: &8Choose your PIN!";
     private static final String loginTxt = "&c&lLogin: &8Type your PIN!";
     private static final String modifyTxt = "&c&lModify: &8Choose your new PIN!";
-    boolean notRegister = false;
-    boolean notLogged = false;
-    boolean isModify = false;
 
-    //Constructor
+    // All-args constructor
 
-    public LoginListener(Main plugin) {
+    public PluginListener(Main plugin) {
         this.plugin = plugin;
     }
-
-    /**
-     * Listens for the PlayerJoinEvent and opens either a registration or login
-     * inventory for the player. If the player's password is already stored in the
-     * plugin's memory, a login inventory is opened; otherwise, a registration inventory
-     * is opened.
-     *
-     * @param event the PlayerJoinEvent
-     */
 
     @EventHandler
     public void userJoined(PlayerJoinEvent event) {
@@ -57,15 +45,8 @@ public class LoginListener implements Listener {
         } else {
             registerInventoryDelay(player);
         }
-    }
 
-    /**
-     * Creates and opens a registration inventory for the provided player. The
-     * inventory is filled with a default set of items, and a RegisterPassword
-     * is added to the plugin's memory for the player.
-     *
-     * @param player the player for whom the registration inventory should be opened
-     */
+    }
 
     public static void registerInventory(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', registerTxt));
@@ -74,30 +55,12 @@ public class LoginListener implements Listener {
         player.openInventory(inv);
     }
 
-
-    /**
-     * Creates and opens a login inventory for the provided player. The inventory
-     * is filled with a default set of items, and a RegisterPassword is added
-     * to the plugin's memory for the player.
-     *
-     * @param player the player for whom the login inventory should be opened
-     */
-
     public static void loginInventory(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', loginTxt));
         LoginInventory.fillInventory(inv);
         plugin.addRegisterPass(player, 3, false);
         player.openInventory(inv);
     }
-
-    /**
-     * Creates and opens a modification inventory for the provided player. The
-     * inventory is filled with a default set of items, a book is placed in the
-     * middle of the inventory for the player to interact with, and a RegisterPassword
-     * is added to the plugin's memory for the player.
-     *
-     * @param player the player for whom the modification inventory should be opened
-     */
 
     public static void modifyInventory(Player player) {
 
@@ -110,6 +73,7 @@ public class LoginListener implements Listener {
         item.setItemMeta(meta);
         inv.setItem(4, item);
         player.openInventory(inv);
+
     }
 
     @EventHandler
@@ -121,6 +85,10 @@ public class LoginListener implements Listener {
         String pathinventory1M = ChatColor.stripColor(pathInventory1);
         String pathinventory2M = ChatColor.stripColor(pathInventory2);
         String pathinventory3M = ChatColor.stripColor(pathInventory3);
+
+        boolean notRegister = false;
+        boolean notLogged = false;
+        boolean isModify = false;
 
         if (ChatColor.stripColor(event.getInventory().getName()).equals(pathinventory1M)) {
             notRegister = true;
@@ -155,8 +123,7 @@ public class LoginListener implements Listener {
                                 String hashedPass = Hash.getSHA256Hash(passString);
                                 players.set(playerPath(player), hashedPass);
                                 plugin.savePlayers();
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                        PinMessages.pinRegistered(plugin) + passString));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.pinRegistered(plugin) + passString));
                                 plugin.deleteRegisterPass(player.getName());
                                 player.closeInventory();
                                 return;
@@ -182,8 +149,7 @@ public class LoginListener implements Listener {
                                         pass.reduceAttempts();
                                         LoginInventory.resetDecorationPass(event.getClickedInventory());
                                         pass.resetPass();
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                                plugin.NAME + "&cWrong pin! &8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.NAME + "&cWrong pin! &8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
                                         return;
                                     }
                                 }
@@ -220,15 +186,6 @@ public class LoginListener implements Listener {
         }
     }
 
-    /**
-     * Listens for the InventoryCloseEvent and reopens the inventory for the player
-     * if they have a RegisterPassword in the plugin's memory. This reopening is
-     * scheduled with a small delay to ensure correct timing in the server's tick
-     * cycle. A sound is also played when the inventory is reopened.
-     *
-     * @param event the InventoryCloseEvent
-     */
-
     @EventHandler
     public void closeInventory(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
@@ -242,15 +199,8 @@ public class LoginListener implements Listener {
                 }
             }, 1L);
         }
-    }
 
-    /**
-     * Schedules the opening of a register inventory for a player with a small
-     * delay. The delay is useful for ensuring that the inventory opens at the
-     * correct time in the server's tick cycle.
-     *
-     * @param player the player for whom the register inventory should be opened
-     */
+    }
 
     public void registerInventoryDelay(Player player) {
         new BukkitRunnable() {
@@ -261,14 +211,6 @@ public class LoginListener implements Listener {
         }.runTaskLater(plugin, 1L);
     }
 
-    /**
-     * Schedules the opening of a login inventory for a player with a small
-     * delay. The delay is useful for ensuring that the inventory opens at the
-     * correct time in the server's tick cycle.
-     *
-     * @param player the player for whom the login inventory should be opened
-     */
-
     public void loginInventoryDelay(Player player) {
         new BukkitRunnable() {
             @Override
@@ -278,12 +220,6 @@ public class LoginListener implements Listener {
         }.runTaskLater(plugin, 1L);
     }
 
-    /**
-     * Listens for the PlayerQuitEvent and deletes the registering password of the
-     * player from the plugin's memory.
-     *
-     * @param event the PlayerQuitEvent
-     */
 
     @EventHandler
     public void thenLeave(PlayerQuitEvent event) {
@@ -291,29 +227,10 @@ public class LoginListener implements Listener {
         plugin.deleteRegisterPass(player.getName());
     }
 
-    /**
-     * Returns a String that represents the path of a player's password in a
-     * configuration file. The path is formed by appending the player's unique ID
-     * to the string "Players.".
-     *
-     * @param player the player whose path needs to be found
-     * @return a string representing the player's path
-     */
 
     public String playerPath(Player player) {
         return "Players." + player.getUniqueId() + ".pass";
     }
-
-    /**
-     * Handles a click event in an inventory and proceeds to the next stage of
-     * password modification. The method resets the inventory, informs the player,
-     * and places a book in the middle of the inventory for the player to interact
-     * with.
-     *
-     * @param event the InventoryClickEvent
-     * @param player the player clicking in the inventory
-     * @param pass the password register instance
-     */
 
     public void newPinModify(InventoryClickEvent event, Player player, RegisterPassword pass) {
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
@@ -328,23 +245,12 @@ public class LoginListener implements Listener {
         event.getClickedInventory().setItem(4, item);
     }
 
-    /**
-     * Saves the new password provided by the player in the configuration file.
-     * This method hashes the password, sets it in the configuration file,
-     * saves the file, and then deletes the password from the plugin's memory.
-     *
-     * @param players the configuration file where the password is stored
-     * @param player the player whose password is being modified
-     * @param passString the new password entered by the player
-     */
-
     public void saveNewPin(FileConfiguration players, Player player, String passString) {
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 1);
         String hashedPass = Hash.getSHA256Hash(passString);
         players.set(playerPath(player), hashedPass);
         plugin.savePlayers();
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                PinMessages.pinChanged(plugin) + passString + "."));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.pinChanged(plugin) + passString + "."));
         plugin.deleteRegisterPass(player.getName());
         player.closeInventory();
     }
