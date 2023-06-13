@@ -21,7 +21,7 @@ public class Main extends JavaPlugin {
 
     protected PluginDescriptionFile pluginReader = getDescription();
     public final String NAME = ChatColor.translateAlternateColorCodes('&', "&8[&f&lLock&6&lCraft&8] ");
-    public final String VERSION = ChatColor.translateAlternateColorCodes('&', "&8(&e"+pluginReader.getVersion()+"&8)");
+    public final String VERSION = ChatColor.translateAlternateColorCodes('&', "&8(&e" + pluginReader.getVersion() + "&8)");
     private ArrayList<RegisterPassword> passwords = new ArrayList<RegisterPassword>();
     private FileConfiguration players = null;
     private File playersFile = null;
@@ -35,12 +35,13 @@ public class Main extends JavaPlugin {
      */
 
     public void onEnable() {
-        getLogger().info("onEnable is being called!");
+
+        getLogger().info(ChatColor.translateAlternateColorCodes(
+                '&', NAME + " &aLockCraft " + VERSION + " &ahas been successfully started."));
 
         registerEvents();
         registerCommands();
         registerPlayers();
-
     }
 
     /**
@@ -73,7 +74,6 @@ public class Main extends JavaPlugin {
      */
 
     public void registerEvents() {
-        getLogger().info("registerEvents is being called!");
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new LoginListener(this), this);

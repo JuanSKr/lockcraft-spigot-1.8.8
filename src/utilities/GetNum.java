@@ -2,6 +2,15 @@ package utilities;
 
 public class GetNum {
 
+    /**
+     * Returns a number corresponding to the given slot number.
+     * This is specifically used to map between two slot numbering systems.
+     * If the input slot number is not recognized, the method returns 0.
+     *
+     * @param slot the original slot number
+     * @return the corresponding slot number in the second numbering system
+     */
+
     public static int getNumberSlot(int slot) {
         switch (slot) {
             case 12:
@@ -26,5 +35,4 @@ public class GetNum {
                 return 0;
         }
     }
-
 }

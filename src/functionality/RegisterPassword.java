@@ -95,9 +95,19 @@ public class RegisterPassword {
         this.attempts--;
     }
 
+    /**
+     * Increases the modifyStage property by one.
+     */
+
     public void increaseStage() {
         this.modifyStage++;
     }
+
+    /**
+     * Retrieves the current modifyStage value.
+     *
+     * @return the current modifyStage value
+     */
 
     public int getStage() {
         return this.modifyStage;

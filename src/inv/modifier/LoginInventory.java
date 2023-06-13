@@ -10,6 +10,13 @@ import utilities.GetHead;
 
 public class LoginInventory {
 
+    /**
+     * Fills an Inventory with a custom ItemStack.
+     * The custom ItemStack is a colored glass pane with no display name.
+     *
+     * @param inv the Inventory to be filled
+     */
+
     public static void fillInventory(Inventory inv) {
         ItemStack item = new ItemStack(160,1, (short) 15);
         ItemMeta meta = item.getItemMeta();

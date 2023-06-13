@@ -40,6 +40,7 @@ public class Help implements CommandExecutor {
                 reloadTxt(lcReload);
 
                 if (player.isOp()) {
+                    //Comand for op users
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 10, 2);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------&8[&f&lLock&6&lCraft&8]&f&m-------------"));
                     player.spigot().sendMessage(modifyPin);
@@ -47,13 +48,13 @@ public class Help implements CommandExecutor {
                     player.spigot().sendMessage(lcReload);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------------------------------"));
                 } else {
+                    //Comand for not op users
                     player.playSound(player.getLocation(), Sound.ANVIL_USE, 10, 2);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------&8[&f&lLock&6&lCraft&8]&f&m-------------"));
                     player.spigot().sendMessage(modifyPin);
                     player.spigot().sendMessage(lcVersion);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------------------------------"));
                 }
-
 
                 return true;
             } else {
@@ -63,6 +64,19 @@ public class Help implements CommandExecutor {
         }
     }
 
+    /**
+     * Modifies a TextComponent to display an interactive command usage message
+     * about changing a user's PIN.
+     * <p>
+     * When the text is hovered over, it displays a tooltip that explains
+     * what the command does.
+     * <p>
+     * When the text is clicked, it suggests the /modifypin command in the
+     * command prompt.
+     *
+     * @param msg the TextComponent to modify
+     */
+
     public void modifyPinTxt(TextComponent msg) {
 
         msg.setText(ChatColor.translateAlternateColorCodes('&', "&7- &e/modifypin"));
@@ -71,6 +85,20 @@ public class Help implements CommandExecutor {
         msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/modifypin"));
     }
 
+
+    /**
+     * Modifies a TextComponent to display an interactive command usage message
+     * about checking the plugin version.
+     * <p>
+     * When the text is hovered over, it displays a tooltip that explains
+     * what the command does.
+     * <p>
+     * When the text is clicked, it suggests the /lc-version command in the
+     * command prompt.
+     *
+     * @param msg the TextComponent to modify
+     */
+
     public void versionTxt(TextComponent msg) {
 
         msg.setText(ChatColor.translateAlternateColorCodes('&', "&7- &e/lc-version"));
@@ -78,6 +106,19 @@ public class Help implements CommandExecutor {
                 "Check the plugin version.").color(ChatColor.AQUA).create()));
         msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/lc-version"));
     }
+
+    /**
+     * Modifies a TextComponent to display an interactive command usage message
+     * about reloading the plugin.
+     * <p>
+     * When the text is hovered over, it displays a tooltip that explains
+     * what the command does.
+     * <p>
+     * When the text is clicked, it suggests the /lc-reload command in the
+     * command prompt.
+     *
+     * @param msg the TextComponent to modify
+     */
 
     public void reloadTxt(TextComponent msg) {
 
