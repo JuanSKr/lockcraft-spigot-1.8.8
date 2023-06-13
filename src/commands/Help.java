@@ -39,12 +39,21 @@ public class Help implements CommandExecutor {
                 versionTxt(lcVersion);
                 reloadTxt(lcReload);
 
-                player.playSound(player.getLocation(), Sound.ANVIL_USE, 10, 2);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------&8[&f&lLock&6&lCraft&8]&f&m-------------"));
-                player.spigot().sendMessage(modifyPin);
-                player.spigot().sendMessage(lcVersion);
-                player.spigot().sendMessage(lcReload);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------------------------------"));
+                if (player.isOp()) {
+                    player.playSound(player.getLocation(), Sound.ANVIL_USE, 10, 2);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------&8[&f&lLock&6&lCraft&8]&f&m-------------"));
+                    player.spigot().sendMessage(modifyPin);
+                    player.spigot().sendMessage(lcVersion);
+                    player.spigot().sendMessage(lcReload);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------------------------------"));
+                } else {
+                    player.playSound(player.getLocation(), Sound.ANVIL_USE, 10, 2);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------&8[&f&lLock&6&lCraft&8]&f&m-------------"));
+                    player.spigot().sendMessage(modifyPin);
+                    player.spigot().sendMessage(lcVersion);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&m-------------------------------------"));
+                }
+
 
                 return true;
             } else {

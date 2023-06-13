@@ -1,6 +1,7 @@
 main: functionality.Main
-version: 0.1.0
+version: 1.0.0
 name: LockCraft
+author: https://github.com/JuanSKr
 
 commands:
   modifypin:
