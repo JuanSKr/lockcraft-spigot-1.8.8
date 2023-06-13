@@ -3,7 +3,6 @@ package listener;
 import functionality.RegisterPassword;
 import hash_code.Hash;
 import inv.modifier.LoginInventory;
-import messages.CommandMessages;
 import messages.PinMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -87,14 +86,14 @@ public class LoginListener implements Listener {
         String pathinventory2M = ChatColor.stripColor(pathInventory2);
         String pathinventory3M = ChatColor.stripColor(pathInventory3);
 
-        boolean isRegister = false;
-        boolean isLogged = false;
+        boolean notRegister = false;
+        boolean notLogged = false;
         boolean isModify = false;
 
         if (ChatColor.stripColor(event.getInventory().getName()).equals(pathinventory1M)) {
-            isRegister = true;
+            notRegister = true;
         } else if (ChatColor.stripColor(event.getInventory().getName()).equals(pathinventory2M)) {
-            isLogged = true;
+            notLogged = true;
         } else if (ChatColor.stripColor(event.getInventory().getName()).equals(pathinventory3M)) {
             isModify = true;
         } else {
@@ -119,7 +118,7 @@ public class LoginListener implements Listener {
                         if (pass.getPass().length() >= 5) {
                             FileConfiguration players = plugin.getPlayers();
                             String passString = pass.getPass();
-                            if (isRegister) {
+                            if (notRegister) {
                                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
                                 String hashedPass = Hash.getSHA256Hash(passString);
                                 players.set(playerPath(player), hashedPass);
@@ -129,7 +128,7 @@ public class LoginListener implements Listener {
                                 plugin.deleteRegisterPass(player.getName());
                                 player.closeInventory();
                                 return;
-                            } else if (isLogged) {
+                            } else if (notLogged) {
                                 String inputPassHash = Hash.getSHA256Hash(passString);
                                 String storedPassHash = players.getString(playerPath(player));
 
@@ -164,30 +163,14 @@ public class LoginListener implements Listener {
                                     String storedPassHash = players.getString(playerPath(player));
 
                                     if (inputPassHash.equals(storedPassHash)) {
-                                        player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
-                                        pass.increaseStage();
-                                        LoginInventory.resetDecorationPass(event.getClickedInventory());
-                                        pass.resetPass();
-                                        ItemStack item = new ItemStack(Material.BOOK);
-                                        ItemMeta meta = item.getItemMeta();
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.modifyCorrectPin(plugin)));
-                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aChoose your new PIN."));
-                                        item.setItemMeta(meta);
-                                        event.getClickedInventory().setItem(4, item);
+                                        newPinModify(event, player, pass);
                                     } else {
                                         plugin.deleteRegisterPass(player.getName());
                                         player.kickPlayer(ChatColor.translateAlternateColorCodes('&', PinMessages.exceededLimitModify(plugin)));
                                     }
 
                                 } else {
-                                    player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 1);
-                                    String hashedPass = Hash.getSHA256Hash(passString);
-                                    players.set(playerPath(player), hashedPass);
-                                    plugin.savePlayers();
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                            PinMessages.pinChanged(plugin) + passString + "."));
-                                    plugin.deleteRegisterPass(player.getName());
-                                    player.closeInventory();
+                                    saveNewPin(players, player, passString);
                                     return;
                                 }
                             }
@@ -246,9 +229,31 @@ public class LoginListener implements Listener {
         plugin.deleteRegisterPass(player.getName());
     }
 
+
     public String playerPath(Player player) {
         return "Players." + player.getUniqueId() + ".pass";
     }
+    public void newPinModify(InventoryClickEvent event, Player player, RegisterPassword pass) {
+        player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 2);
+        pass.increaseStage();
+        LoginInventory.resetDecorationPass(event.getClickedInventory());
+        pass.resetPass();
+        ItemStack item = new ItemStack(Material.BOOK);
+        ItemMeta meta = item.getItemMeta();
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.modifyCorrectPin(plugin)));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aChoose your new PIN."));
+        item.setItemMeta(meta);
+        event.getClickedInventory().setItem(4, item);
+    }
 
-
+    public void saveNewPin(FileConfiguration players, Player player, String passString) {
+        player.playSound(player.getLocation(), Sound.LEVEL_UP, 10, 1);
+        String hashedPass = Hash.getSHA256Hash(passString);
+        players.set(playerPath(player), hashedPass);
+        plugin.savePlayers();
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                PinMessages.pinChanged(plugin) + passString + "."));
+        plugin.deleteRegisterPass(player.getName());
+        player.closeInventory();
+    }
 }
