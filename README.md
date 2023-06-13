@@ -43,7 +43,7 @@ This project is [MIT](LICENSE) licensed.
   - The user will be able to use this command to modify his PIN. The current PIN must be entered, followed by the new one.
 - /lc-reload:
   - This command reloads the plugin. It is available only for users with OP permissions. If a user without OP permissions tries to use this command, this will be notified in the console.
-- /help:
+- /lc-help:
   - Gives you all available plugin commands.
 - /version:
   - It gives you the version of the plugin that is installed on the server.
