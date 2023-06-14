@@ -68,22 +68,23 @@ public class PinMessages {
         return plugin.NAME + "&aCorrect PIN! &7Choose your new PIN.";
     }
 
-    /**
-     * Returns a String message indicating that the user's pin has been successfully changed.
-     *
-     * @param plugin the main plugin instance
-     * @return a string representing the successful pin change message
-     */
 
-    public static String pinChanged(Main plugin) {
-        return plugin.NAME + "&aPIN successfully changed! &7Your new PIN is: &f";
-    }
 
     public static TextComponent playerPass(String passString) {
         TextComponent passwd = new TextComponent();
 
         passwd.setText(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes(
                 '&', "&8[&f&lLock&6&lCraft&8] &ePIN successfully registered! &7Mouse over to view it."));
+        passwd.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(passString).
+                color(net.md_5.bungee.api.ChatColor.GREEN).create()));
+        return passwd;
+    }
+
+    public static TextComponent pinChanged(String passString) {
+        TextComponent passwd = new TextComponent();
+
+        passwd.setText(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes(
+                '&', "&8[&f&lLock&6&lCraft&8] &ePIN successfully changed! &7Mouse over to view it."));
         passwd.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(passString).
                 color(net.md_5.bungee.api.ChatColor.GREEN).create()));
         return passwd;

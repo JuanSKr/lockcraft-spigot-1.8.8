@@ -255,7 +255,8 @@ public class PluginListener implements Listener {
         String hashedPass = Hash.getSHA256Hash(passString);
         players.set(playerPath(player), hashedPass);
         plugin.savePlayers();
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.pinChanged(plugin) + passString + "."));
+        TextComponent pinChanged = PinMessages.playerPass(passString);
+        player.spigot().sendMessage(pinChanged);
         plugin.deleteRegisterPass(player.getName());
         player.closeInventory();
     }
