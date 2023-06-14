@@ -45,7 +45,7 @@ This project is [MIT](LICENSE) licensed.
   - This command reloads the plugin. It is available only for users with OP permissions. If a user without OP permissions tries to use this command, this will be notified in the console.
 - /lc-help:
   - Gives you all available plugin commands.
-- /version:
+- /lc-version:
   - It gives you the version of the plugin that is installed on the server.
 
 ## 📚  Libraries implemented in the development process: 
