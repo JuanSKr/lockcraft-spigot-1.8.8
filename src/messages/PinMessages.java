@@ -88,4 +88,28 @@ public class PinMessages {
                 color(net.md_5.bungee.api.ChatColor.GREEN).create()));
         return passwd;
     }
+
+    public static String registerTxt() {
+        return "&c&lRegister: &8Choose your PIN!";
+    }
+
+    public static String loginTxt() {
+        return "&c&lLogin: &8Type your PIN!";
+    }
+
+    public static String modifyTxt() {
+        return "&c&lModify: &8Choose your new PIN!";
+    }
+
+    public static String textYourActPin() {
+        return "&aText your actually pin.";
+    }
+
+    public static String wrongPin() {
+        return "&cWrong pin!";
+    }
+
+    public static String chooseYourNewPin() {
+        return "&aChoose your new PIN.";
+    }
 }

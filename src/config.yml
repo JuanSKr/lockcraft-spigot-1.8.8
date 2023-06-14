@@ -1,0 +1,3 @@
+Config:
+  # Only availible in "english" or "spanish".
+  language: english

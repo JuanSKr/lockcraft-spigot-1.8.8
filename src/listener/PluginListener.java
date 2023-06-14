@@ -30,9 +30,9 @@ import utilities.GetNum;
 public class PluginListener implements Listener {
 
     public static Main plugin;
-    private static final String registerTxt = "&c&lRegister: &8Choose your PIN!";
-    private static final String loginTxt = "&c&lLogin: &8Type your PIN!";
-    private static final String modifyTxt = "&c&lModify: &8Choose your new PIN!";
+    private static final String registerTxt = PinMessages.registerTxt();
+    private static final String loginTxt = PinMessages.loginTxt();
+    private static final String modifyTxt = PinMessages.modifyTxt();
 
     // All-args constructor
 
@@ -73,7 +73,7 @@ public class PluginListener implements Listener {
         plugin.addRegisterPass(player, 1, true);
         ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aText your actually pin."));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', PinMessages.textYourActPin()));
         item.setItemMeta(meta);
         inv.setItem(4, item);
         player.openInventory(inv);
@@ -154,7 +154,7 @@ public class PluginListener implements Listener {
                                         pass.reduceAttempts();
                                         LoginInventory.resetDecorationPass(event.getClickedInventory());
                                         pass.resetPass();
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.NAME + "&cWrong pin! &8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.NAME + PinMessages.wrongPin() +"&8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
                                         return;
                                     }
                                 }
@@ -245,7 +245,7 @@ public class PluginListener implements Listener {
         ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta meta = item.getItemMeta();
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.modifyCorrectPin(plugin)));
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&aChoose your new PIN."));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', PinMessages.chooseYourNewPin()));
         item.setItemMeta(meta);
         event.getClickedInventory().setItem(4, item);
     }
