@@ -12,7 +12,7 @@ Contributions, issues and feature requests are welcome! Feel free to check.
 
 ## 📝 License
 
-This project is [MIT](LICENSE) licensed.
+This project is [GPL-3.0](LICENSE) licensed.
 
 ## ⚒️  Programming languages utilized in the development of this application:
 <ul style="list-style-type: none;">
