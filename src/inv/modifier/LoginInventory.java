@@ -1,8 +1,9 @@
 package inv.modifier;
 
+import functionality.Main;
+import messages.PinMessages;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,7 +18,7 @@ public class LoginInventory {
      * @param inv the Inventory to be filled
      */
 
-    public static void fillInventory(Inventory inv) {
+    public static void fillInventory(Inventory inv, Main plugin) {
         ItemStack item = new ItemStack(160,1, (short) 15);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(" ");
@@ -109,7 +110,7 @@ public class LoginInventory {
 
         item = new ItemStack(Material.ENDER_PEARL);
         meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&9Reset PIN"));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', PinMessages.resetPin(plugin)));
         item.setItemMeta(meta);
         inv.setItem(49, item);
 

@@ -14,6 +14,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import updates.CheckUpdates;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,11 +23,12 @@ public class Main extends JavaPlugin {
 
     protected PluginDescriptionFile pluginReader = getDescription();
     public final String NAME = ChatColor.translateAlternateColorCodes('&', "&8[&f&lLock&6&lCraft&8] ");
-    public final String VERSION = ChatColor.translateAlternateColorCodes('&', "&8(&e" + pluginReader.getVersion() + "&8)");
+    public final String VERSIONSHOW = ChatColor.translateAlternateColorCodes('&', "&8(&e" + pluginReader.getVersion() + "&8)");
+    public final String VERSION = pluginReader.getVersion();
     private ArrayList<RegisterPassword> passwords = new ArrayList<RegisterPassword>();
     private FileConfiguration players = null;
     private File playersFile = null;
-
+    public String configPath;
     /**
      * This method is called when the plugin is enabled.
      * It's responsible for initializing key components such as the config reader,
@@ -43,6 +45,10 @@ public class Main extends JavaPlugin {
         registerEvents();
         registerCommands();
         registerPlayers();
+        registerConfig();
+
+        CheckUpdates checkUpdates = new CheckUpdates(this);
+        CheckUpdates.checkForUpdates();
     }
 
     /**
@@ -66,6 +72,16 @@ public class Main extends JavaPlugin {
         this.getCommand("lc-help").setExecutor(new Help(this));
         this.getCommand("lc-version").setExecutor(new Version(this));
 
+    }
+
+    public void registerConfig() {
+        File config = new File(this.getDataFolder(), "config.yml");
+        configPath = config.getPath();
+
+        if (!config.exists()) {
+            this.getConfig().options().copyDefaults(true);
+            saveConfig();
+        }
     }
 
     /**

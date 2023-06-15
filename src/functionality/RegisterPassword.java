@@ -28,7 +28,6 @@ public class RegisterPassword {
         }
     }
 
-
     /**
      * Returns the player associated with the RegisterPassword instance.
      *

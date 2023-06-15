@@ -4,9 +4,6 @@ import functionality.RegisterPassword;
 import hash_code.Hash;
 import inv.modifier.LoginInventory;
 import messages.PinMessages;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,19 +26,21 @@ import utilities.GetNum;
 
 public class PluginListener implements Listener {
 
-    public static Main plugin;
-    private static final String registerTxt = PinMessages.registerTxt();
-    private static final String loginTxt = PinMessages.loginTxt();
-    private static final String modifyTxt = PinMessages.modifyTxt();
+        public static Main plugin;
 
-    // All-args constructor
+        private static String registerTxt;
+        private static String loginTxt;
+        private static String modifyTxt;
 
-    public PluginListener(Main plugin) {
-        this.plugin = plugin;
-    }
+        public PluginListener(Main plugin) {
+            this.plugin = plugin;
+        }
 
     @EventHandler
     public void userJoined(PlayerJoinEvent event) {
+        registerTxt = PinMessages.registerTxt(plugin);
+        loginTxt = PinMessages.loginTxt(plugin);
+        modifyTxt = PinMessages.modifyTxt(plugin);
         Player player = event.getPlayer();
         FileConfiguration players = plugin.getPlayers();
         if (players.contains(playerPath(player))) {
@@ -54,14 +53,14 @@ public class PluginListener implements Listener {
 
     public static void registerInventory(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', registerTxt));
-        LoginInventory.fillInventory(inv);
+        LoginInventory.fillInventory(inv, plugin);
         plugin.addRegisterPass(player, 3, false);
         player.openInventory(inv);
     }
 
     public static void loginInventory(Player player) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', loginTxt));
-        LoginInventory.fillInventory(inv);
+        LoginInventory.fillInventory(inv, plugin);
         plugin.addRegisterPass(player, 3, false);
         player.openInventory(inv);
     }
@@ -69,11 +68,11 @@ public class PluginListener implements Listener {
     public static void modifyInventory(Player player) {
 
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.translateAlternateColorCodes('&', modifyTxt));
-        LoginInventory.fillInventory(inv);
+        LoginInventory.fillInventory(inv, plugin);
         plugin.addRegisterPass(player, 1, true);
         ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', PinMessages.textYourActPin()));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', PinMessages.textYourActPin(plugin)));
         item.setItemMeta(meta);
         inv.setItem(4, item);
         player.openInventory(inv);
@@ -127,7 +126,7 @@ public class PluginListener implements Listener {
                                 String hashedPass = Hash.getSHA256Hash(passString);
                                 players.set(playerPath(player), hashedPass);
                                 plugin.savePlayers();
-                                TextComponent registeredMsg = PinMessages.playerPass(passString);
+                                TextComponent registeredMsg = PinMessages.playerPass(passString, plugin);
                                 player.spigot().sendMessage(registeredMsg);
                                 plugin.deleteRegisterPass(player.getName());
                                 player.closeInventory();
@@ -154,7 +153,7 @@ public class PluginListener implements Listener {
                                         pass.reduceAttempts();
                                         LoginInventory.resetDecorationPass(event.getClickedInventory());
                                         pass.resetPass();
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.NAME + PinMessages.wrongPin() +"&8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.NAME + PinMessages.wrongPin(plugin) +"&8(&6" + (maxAttempts - attemps + 1) + "&7/&6" + maxAttempts + "&8)"));
                                         return;
                                     }
                                 }
@@ -232,7 +231,6 @@ public class PluginListener implements Listener {
         plugin.deleteRegisterPass(player.getName());
     }
 
-
     public String playerPath(Player player) {
         return "Players." + player.getUniqueId() + ".pass";
     }
@@ -245,7 +243,7 @@ public class PluginListener implements Listener {
         ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta meta = item.getItemMeta();
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', PinMessages.modifyCorrectPin(plugin)));
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', PinMessages.chooseYourNewPin()));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', PinMessages.chooseYourNewPin(plugin)));
         item.setItemMeta(meta);
         event.getClickedInventory().setItem(4, item);
     }
@@ -255,7 +253,7 @@ public class PluginListener implements Listener {
         String hashedPass = Hash.getSHA256Hash(passString);
         players.set(playerPath(player), hashedPass);
         plugin.savePlayers();
-        TextComponent pinChanged = PinMessages.playerPass(passString);
+        TextComponent pinChanged = PinMessages.playerPass(passString, plugin);
         player.spigot().sendMessage(pinChanged);
         plugin.deleteRegisterPass(player.getName());
         player.closeInventory();
