@@ -65,7 +65,7 @@ public class PinMessages {
         if (config.getString(language).equalsIgnoreCase("english")) {
             return plugin.NAME + "&aYou're logged in!";
         } else if (config.getString(language).equalsIgnoreCase("spanish")) {
-            return plugin.NAME + "&aHas iniciado sesión!";
+            return plugin.NAME + "&a¡Has iniciado sesión!";
         } else if (config.getString(language).equalsIgnoreCase("german")) {
             return plugin.NAME + "&aSie sind eingeloggt!";
         } else {
@@ -97,7 +97,7 @@ public class PinMessages {
         if (config.getString(language).equalsIgnoreCase("english")) {
             return plugin.NAME + "&aCorrect PIN! &7Choose your new PIN.";
         } else if (config.getString(language).equalsIgnoreCase("spanish")) {
-            return plugin.NAME + "&aPIN correcto! &7Elige tu nuevo PIN.";
+            return plugin.NAME + "&a¡PIN correcto! &7Elige tu nuevo PIN.";
         } else if (config.getString(language).equalsIgnoreCase("german")) {
             return plugin.NAME + "Richtige PIN! &7Wählen Sie Ihre neue PIN.";
         } else {
@@ -120,7 +120,7 @@ public class PinMessages {
 
         } else if (config.getString(language).equalsIgnoreCase("spanish")) {
             passwd.setText(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes(
-                    '&', "&8[&f&lLock&6&lCraft&8] &eEl PIN ha sido registrado! &7Pasa el ratón por encima."));
+                    '&', "&8[&f&lLock&6&lCraft&8] &e¡El PIN ha sido registrado! &7Pasa el ratón por encima."));
             passwd.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(passString).
                     color(net.md_5.bungee.api.ChatColor.GREEN).create()));
             return passwd;
@@ -139,17 +139,7 @@ public class PinMessages {
             return passwd;
         }
     }
-
-    public static TextComponent pinChanged(String passString) {
-        TextComponent passwd = new TextComponent();
-
-        passwd.setText(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes(
-                '&', "&8[&f&lLock&6&lCraft&8] &ePIN successfully changed! &7Mouse over to view it."));
-        passwd.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(passString).
-                color(net.md_5.bungee.api.ChatColor.GREEN).create()));
-        return passwd;
-    }
-
+    
     public static String registerTxt(Main plugin) {
         FileConfiguration config = plugin.getConfig();
 

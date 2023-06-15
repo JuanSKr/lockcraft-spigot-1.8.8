@@ -19,7 +19,7 @@ public class CheckUpdates {
     public static void checkForUpdates() {
         try {
             // Dirección al archivo plugin.yml en GitHub
-            URL url = new URL("https://raw.githubusercontent.com/JuanSKr/LockCraft-Spigot-1.8.8/e59aee615afeb7fd32e06364f597788f6448c328/src/plugin.yml");
+            URL url = new URL("https://github.com/JuanSKr/LockCraft-Spigot-1.8.8/blob/main/src/plugin.yml");
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
 
             String line;
