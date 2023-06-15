@@ -1,5 +1,4 @@
 # 🔐 LockCraft
-### ⚠️ This plugin is still in a very early stage of development. This is only a first version with very simple features. It will receive major updates. ⚠️
 
 ## 📦 How to use:
 
@@ -22,6 +21,10 @@ This project is [MIT](LICENSE) licensed.
 </ul>
 
 ## ❔ Main features:
+- The plugin has full configuration in 3 languages:
+  - English
+  - Spanish
+  - German
 - Register:
   - The first time a user logs on to the server and is not registered, he must do so.
   - The register consists of a 5-character numeric pin from 1 to 9. 
@@ -53,6 +56,9 @@ This project is [MIT](LICENSE) licensed.
 
 ## 🚰 Spigot repository:
 https://www.spigotmc.org/resources/lockcraft.110439/
+
+## 📖 Changelog:
+https://www.spigotmc.org/resources/lockcraft.110439/updates
 
 <details>
   <summary>📸 Screenshots</summary>
