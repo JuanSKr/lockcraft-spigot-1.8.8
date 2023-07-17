@@ -105,8 +105,6 @@ public class PinMessages {
         }
     }
 
-
-
     public static TextComponent playerPass(String passString, Main plugin) {
         TextComponent passwd = new TextComponent();
         FileConfiguration config = plugin.getConfig();

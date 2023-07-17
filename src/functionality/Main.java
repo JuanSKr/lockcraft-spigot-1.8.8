@@ -41,7 +41,6 @@ public class Main extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage(NAME + ChatColor.GREEN + " LockCraft has been successfully started. " + VERSION);
 
-
         registerEvents();
         registerCommands();
         registerPlayers();
